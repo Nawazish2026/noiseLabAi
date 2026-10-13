@@ -85,7 +85,7 @@ navTabs.forEach(tab => {
 // 2. Sample Data Seeding
 btnSeedSamples.addEventListener('click', async () => {
   btnSeedSamples.disabled = true;
-  btnSeedSamples.innerHTML = `<span>Loading...</span>`;
+  btnSeedSamples.innerHTML = `<span>Ingesting 5 Reports...</span>`;
   try {
     const res = await fetch(`${API_BASE}/seed-samples`, {
       method: 'POST',
@@ -94,10 +94,19 @@ btnSeedSamples.addEventListener('click', async () => {
     });
     const data = await res.json();
     if (data.success) {
-      alert('5 Sample Reports successfully loaded into MongoDB!');
-      loadReports();
-      loadTests();
-      loadTrendData(trendTestSelect.value);
+      await Promise.all([
+        loadReports(),
+        loadTests(),
+        loadTrendData(trendTestSelect ? trendTestSelect.value : 'HbA1c')
+      ]);
+
+      // Automatically switch to Report Vault tab so user visibly sees the 5 cards
+      const vaultTab = document.querySelector('.nav-tab[data-tab="tab-vault"]');
+      if (vaultTab) {
+        vaultTab.click();
+      }
+    } else {
+      alert(`Seeding notice: ${data.error || data.message || 'Please retry in a moment.'}`);
     }
   } catch (err) {
     alert(`Failed to load samples: ${err.message}`);

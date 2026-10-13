@@ -241,9 +241,22 @@ Provide a factual, grounded response citing specific test names and report dates
     try {
       // 2. Try Gemini
       if (this.provider === 'gemini' && this.geminiClient) {
-        const model = this.geminiClient.getGenerativeModel({ model: config.geminiModel });
-        const result = await model.generateContent(promptText);
-        return result.response.text();
+        const primaryModel = config.geminiModel || 'gemini-3.8-flash';
+        const fallbackChain = [primaryModel, 'gemini-3.1-flash-lite', 'gemini-3.5-flash'];
+        
+        for (const modelCandidate of [...new Set(fallbackChain)]) {
+          try {
+            const model = this.geminiClient.getGenerativeModel({ model: modelCandidate });
+            const fetchPromise = model.generateContent(promptText);
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Remote LLM call timed out after 6000ms')), 6000)
+            );
+            const result = await Promise.race([fetchPromise, timeoutPromise]);
+            return result.response.text();
+          } catch (mErr) {
+            console.log(`[LLMClient] Model ${modelCandidate} unavailable (${mErr.message.slice(0, 50)}). Trying next candidate...`);
+          }
+        }
       }
 
       // 3. Try OpenAI

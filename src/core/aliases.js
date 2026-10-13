@@ -1,10 +1,3 @@
-/**
- * Clinical Biomarker Alias Normalization Registry
- * 
- * Maps clinical abbreviations, hospital-specific lab codes, and colloquial terms
- * to standard canonical test names while preserving verbatim source strings.
- */
-
 export const CANONICAL_ALIASES = {
   'HbA1c': [
     'hba1c', 'a1c', 'glycated hemoglobin', 'glycosylated hemoglobin',

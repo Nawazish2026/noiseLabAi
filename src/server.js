@@ -26,6 +26,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static frontend dashboard files
 app.use(express.static(PUBLIC_DIR));
 
+// Ensure MongoDB is connected for serverless environments (e.g. Vercel)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('[DB Middleware Error]:', err.message);
+    next(err);
+  }
+});
+
 // API Routes
 app.use('/api/upload', uploadRouter);
 app.use('/api', reportRouter);

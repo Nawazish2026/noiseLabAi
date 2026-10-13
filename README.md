@@ -82,6 +82,45 @@ A common pitfall in AI healthcare prototypes is delegating clinical arithmetic, 
 
 ---
 
+## ⌚ 2.5 Noise Wearable Ecosystem Integration (Luna Ring & Smartwatches)
+
+A primary differentiator of **noiseLab.ai** is its alignment with **Noise's Wearable Product Ecosystem** (including the **Noise Luna Ring**, **Noise ColorFit** smartwatches, and the **NoiseFit Health Suite**).
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│           Noise Wearable & Clinical Intelligence Synergy                │
+└────────────────────────────────────────────────────────────────────────┘
+
+    [ Noise Wearables (Luna Ring / ColorFit) ]      [ Clinical Lab Reports ]
+       • Continuous Resting Heart Rate (RHR)          • HbA1c (Glycated Hgb)
+       • Heart Rate Variability (HRV / RMSSD)         • Fasting Blood Glucose
+       • Sleep Architecture (Deep / REM / Light)      • Lipid Panel (LDL / HDL)
+       • Active Energy & VO2 Max                      • Serum Creatinine & eGFR
+                        │                                      │
+                        └───────────────┬──────────────────────┘
+                                        ▼
+                        ┌───────────────────────────────┐
+                        │          noiseLab.ai          │
+                        │   Biochemical Ground Truth    │
+                        │   + Wearable Vitals Context   │
+                        │   + Deterministic Guardrails  │
+                        └───────────────────────────────┘
+```
+
+### 1. Continuous Physiology vs. Episodic Biochemical Truth
+- **Wearables (Daily / Real-Time)**: Capture continuous autonomic nervous system tone, sleep cycles, nocturnal heart rate dips, and activity strain.
+- **Lab Reports (Quarterly / Biannual)**: Provide deep biochemical ground truth (blood chemistry, cellular glucose regulation, lipid stoichiometry).
+- **The Synergy**: When a Luna Ring flags fluctuating recovery scores or elevated nocturnal RHR, `noiseLab.ai` correlates these signals with underlying metabolic indicators (e.g. an HbA1c spike or elevated fasting glucose), enabling users to understand the physiological *'why'* behind their wearable metrics.
+
+### 2. Metabolic & Cardiovascular Trajectory Tracking
+- **Metabolic Wellness**: A user improving their lifestyle sees their Luna Ring Sleep Recovery score improve, which `noiseLab.ai` correlates with a code-verified drop in HbA1c from 6.8% to 5.7%.
+- **Cardiovascular Health**: Longitudinal reductions in Total Cholesterol and LDL correlate with ColorFit cardio metrics and resting heart rate stability.
+
+### 3. Unified Critical Guardrails
+- Just as Noise wearables alert users when resting heart rates breach safe thresholds, `noiseLab.ai` implements **deterministic panic value detection** (e.g., Potassium 6.8 mEq/L), immediately escalating to emergency healthcare advice without LLM hallucination or delay.
+
+---
+
 ## 🚀 3. Quickstart & Installation
 
 ### Prerequisites
@@ -169,7 +208,7 @@ npm start
 ✔ Tool 4: compare_panel_results compares lipid panel across dates
 ✔ Tool Planning: selects correct tool based on user query intent
 
-ℹ tests 23 | pass 23 | fail 0 | duration_ms ~1.9s
+ℹ tests 26 | pass 26 | fail 0 | duration_ms ~1.9s
 ```
 
 ---
@@ -286,11 +325,12 @@ Lab_report_agent/
 │   ├── style.css                  # Modern dark-mode styling & responsive design
 │   └── app.js                     # Interactive client logic, chat, & SVG charts
 ├── samples/                       # 5 Generated clinical reports (PDFs & high-res PNG)
-└── tests/                         # 23 Automated unit and integration tests
+└── tests/                         # 26 Automated unit and integration tests across 7 suites
     ├── aliases_and_units.test.js
+    ├── ambiguity_and_quality.test.js
+    ├── correction_flow.test.js
+    ├── grounded_qa.test.js
     ├── longitudinal_math.test.js
     ├── safety_and_injection.test.js
-    ├── tools_and_retrieval.test.js
-    ├── correction_flow.test.js
-    └── grounded_qa.test.js
+    └── tools_and_retrieval.test.js
 ```

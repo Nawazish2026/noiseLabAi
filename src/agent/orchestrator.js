@@ -140,8 +140,18 @@ export class AgentOrchestrator {
       safetyMessage = CRITICAL_ALERT_MESSAGE;
     }
 
-    // 6. Generate Grounded Synthesis via LLM Client
-    let groundedAnswer = await this.llmClient.generateGroundedResponse(userQuery, executedTools);
+    // 6. Check for ambiguous/conflicting duplicate results
+    const conflictingExec = executedTools.find(
+      t => t.resultSummary && t.resultSummary.qualityFlag === 'CONFLICTING_DUPLICATE_VALUES'
+    );
+    let groundedAnswer;
+    if (conflictingExec) {
+      const summary = conflictingExec.resultSummary;
+      groundedAnswer = `In your lab report from ${summary.reportDate}, conflicting duplicate readings (${summary.value}) were detected for ${summary.canonicalTestName}. I cannot determine a single definitive value without manual clarification. Please verify your source document or submit a correction.`;
+    } else {
+      // Generate Grounded Synthesis via LLM Client
+      groundedAnswer = await this.llmClient.generateGroundedResponse(userQuery, executedTools);
+    }
 
     // If critical alert was triggered, ensure the fixed safety message is prominent
     if (containsCriticalResult) {

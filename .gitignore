@@ -20,3 +20,10 @@ Thumbs.db
 
 # Tesseract data (auto-downloaded at runtime)
 eng.traineddata
+
+# Vercel
+.vercel/
+
+# Logs & temp
+*.log
+npm-debug.log*

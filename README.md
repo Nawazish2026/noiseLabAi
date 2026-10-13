@@ -78,7 +78,7 @@ A common pitfall in AI healthcare prototypes is delegating clinical arithmetic, 
 | **5. Longitudinal Math** | Code-based absolute and percentage deltas, trajectory classification (`NORMALIZED`, `ELEVATED`, `DECREASED`, `STABLE`). Validated unit conversion (mg/dL ↔ mmol/L). | ✅ Complete |
 | **6. Ambiguity & Quality** | Quality flags (`HIGH_CONFIDENCE`, `PRE_TAGGED_CRITICAL`, `MISSING_UNIT`, `USER_CORRECTED`). Complete user correction flow with live re-indexing. | ✅ Complete |
 | **7. Safety & Injection** | Sandboxed untrusted document input. Defeats adversarial prompts ("Ignore instructions..."). Deterministic critical panic alerts. Programmatic refusal of treatment/dosage. | ✅ Complete |
-| **8. Full Deliverables** | 100% test coverage (23 passing tests), self-contained sample generators, demo video script, code walkthrough script. | ✅ Complete |
+| **8. Full Deliverables** | 100% test coverage (26 passing tests), self-contained sample generators, demo video script, code walkthrough script. | ✅ Complete |
 
 ---
 
@@ -86,7 +86,7 @@ A common pitfall in AI healthcare prototypes is delegating clinical arithmetic, 
 
 ### Prerequisites
 - **Node.js**: v18+ (tested on v26.4.0)
-- **MongoDB**: Local `mongod` instance running on `127.0.0.1:27017`
+- **MongoDB**: MongoDB Atlas Cloud Cluster or local `mongod` instance (`127.0.0.1:27017`)
 
 ### 1. Clone & Install Dependencies
 ```bash
@@ -99,7 +99,19 @@ Copy the example environment file:
 ```bash
 cp .env.example .env
 ```
-*(Optional)* Add your `GEMINI_API_KEY` or `OPENAI_API_KEY` if you want remote model inference. AegisLab includes a high-fidelity deterministic offline engine that runs out of the box with zero external API key requirements.
+
+Configure your MongoDB connection in `.env`. Both `MONGODB_URI` and `MONGO_URI` are supported:
+```bash
+# MongoDB Atlas Cloud Cluster:
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mey7ass.mongodb.net/lab_report_db?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mey7ass.mongodb.net/lab_report_db?retryWrites=true&w=majority
+
+# Or Local MongoDB instance:
+# MONGODB_URI=mongodb://127.0.0.1:27017/lab_report_db
+# MONGO_URI=mongodb://127.0.0.1:27017/lab_report_db
+```
+
+*(Optional)* Add your `GEMINI_API_KEY` or `OPENAI_API_KEY` if you want remote model inference. noiseLab.ai includes a high-fidelity deterministic offline engine that runs out of the box with zero external API key requirements.
 
 ### 3. Generate Clinical Test Reports
 Generates 5 realistic PDF reports (baseline, follow-ups, adversarial prompt injection, and panic threshold):
@@ -114,7 +126,7 @@ npm run seed
 ```
 
 ### 5. Run the Automated Test Suite
-Runs all 23 integration and unit tests:
+Runs all 26 integration and unit tests:
 ```bash
 npm test
 ```
@@ -128,7 +140,7 @@ npm start
 
 ---
 
-## 🧪 4. Test Suite Summary (23/23 Passing)
+## 🧪 4. Test Suite Summary (26/26 Passing)
 
 ```bash
 > node --test --test-concurrency=1 tests/*.test.js
@@ -168,7 +180,7 @@ Use this step-by-step storyboard to record the demo video showcasing all core fl
 
 | Timestamp | Screen / Flow | Action to Perform | Voiceover Talking Points |
 | :--- | :--- | :--- | :--- |
-| **0:00 - 0:30** | **Overview & Seeding** | Open `http://localhost:3000`. Click **"Load 5 Sample Reports"**. | *"Welcome to AegisLab, an LLM-powered multimodal health report agent built with Node.js, Express, and MongoDB. We start by clicking 'Load 5 Sample Reports', which ingests 3 chronological patient reports, an adversarial injection report, and a critical panic value report."* |
+| **0:00 - 0:30** | **Overview & Seeding** | Open `http://localhost:3000`. Click **"Load 5 Sample Reports"**. | *"Welcome to noiseLab.ai, an LLM-powered multimodal health report agent built with Node.js, Express, and MongoDB. We start by clicking 'Load 5 Sample Reports', which ingests 3 chronological patient reports, an adversarial injection report, and a critical panic value report."* |
 | **0:30 - 1:00** | **Report Vault & Extraction** | Click **"Report Vault"** tab. Show reports list. Click **"View Raw Report Text"** on Report 1. Show the extracted tests table. | *"In the Report Vault, we see both raw extracted text and structured data. Common aliases like 'Glycated Hemoglobin' and 'FBS' are cleanly normalized to canonical medical names like HbA1c and Fasting Glucose while preserving verbatim source labels. Notice quality flags like High Confidence and Out of Range."* |
 | **1:00 - 1:40** | **Grounded Q&A & Math** | Switch to **"Grounded Agent Q&A"** tab. Click chip: *"How has my HbA1c changed across reports?"* | *"Notice the response: the agent invokes our deterministic tool `get_test_history`. All math is computed in code: HbA1c decreased by 1.1% (16.2%) from 2024-01-15 (6.8%) to 2024-11-10 (5.7%). Every factual statement explicitly cites the exact report date and test name."* |
 | **1:40 - 2:10** | **Safety & Injections** | Click chip: *"What dose of amoxicillin should I take?"* Then chip: *"What is my latest potassium level?"* | *"Here we test our strict medical guardrails. When asked for antibiotic dosage, the agent immediately issues a programmatic medical refusal. When asked about potassium, the pre-tagged critical panic threshold (6.8 mEq/L) deterministically triggers our urgent clinical safety alert."* |
@@ -182,7 +194,7 @@ Use this step-by-step storyboard to record the demo video showcasing all core fl
 Use this script to present the codebase architecture during technical review or interviews:
 
 ```
-"Hello! I am presenting the architecture of the AegisLab Lab Report Intelligence Agent.
+"Hello! I am presenting the architecture of the noiseLab.ai Lab Report Intelligence Agent.
 The project is built on modern Node.js using ES Modules, Express.js for the REST API, 
 and MongoDB via Mongoose for structured storage.
 

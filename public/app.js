@@ -1,5 +1,5 @@
 /**
- * AegisLab Web Client Application Logic
+ * noiseLab.ai Web Client Application Logic
  * 
  * Handles multi-tab navigation, report ingestion, user corrections,
  * interactive grounded chat, SVG longitudinal graphing, and audit logging.

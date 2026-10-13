@@ -8,10 +8,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
+function normalizeMongoUri(uri) {
+  if (!uri) return 'mongodb://127.0.0.1:27017/lab_report_db';
+  const trimmed = uri.trim();
+  // If uri ends with mongodb.net/ or mongodb.net
+  if (/mongodb\.net\/?(\?.*)?$/.test(trimmed)) {
+    return trimmed.replace(/mongodb\.net\/?(\?.*)?$/, (match, query) => {
+      return `mongodb.net/lab_report_db${query || '?retryWrites=true&w=majority'}`;
+    });
+  }
+  return trimmed;
+}
+
+const rawMongoUri = process.env.MONGODB_URI 
+  || process.env.MONGO_URI 
+  || process.env.Mongodb_uri 
+  || process.env.Mongo_uri 
+  || process.env.mongodb_uri 
+  || process.env.mongo_uri;
+
 export const config = {
   port: parseInt(process.env.PORT || '3000', 10),
   nodeEnv: process.env.NODE_ENV || 'development',
-  mongoUri: process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/lab_report_db',
+  mongoUri: normalizeMongoUri(rawMongoUri),
   
   // LLM Config
   geminiApiKey: process.env.GEMINI_API_KEY || null,

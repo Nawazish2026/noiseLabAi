@@ -1,4 +1,4 @@
-# AegisLab • LLM Lab Report Intelligence Agent
+# noiseLab.ai • Health Intelligence Agent
 > **Enterprise-Grade Multimodal Clinical Health-Report Intelligence System**  
 > *Architected with Node.js (ESM), Express.js, MongoDB (Mongoose), Deterministic Tool Verification, and Multi-Provider LLM Orchestration.*
 
@@ -8,7 +8,7 @@
 
 A common pitfall in AI healthcare prototypes is delegating clinical arithmetic, range verification, and safety decisions directly to generative LLMs, leading to hallucinations, units confusion, and prompt injection vulnerabilities. 
 
-**AegisLab solves this through strict separation of concerns:**
+**noiseLab.ai solves this through strict separation of concerns:**
 1. **Untrusted Data Isolation**: All uploaded documents (PDFs/Images) are parsed in an isolated sandbox. Raw text is delimited (`<untrusted_lab_document>`) and stripped of potential prompt injections before any model exposure.
 2. **Canonical Alias Normalization**: Variations across laboratory providers (e.g. `Glycated Hemoglobin`, `HbA1c`, `A1C Glycated`, `Hgb A1c`) are resolved to standardized clinical canonical keys while preserving original report verbatim text.
 3. **Deterministic Verification Engine (Code-Based Math)**: Deltas, percentages, longitudinal trajectories, and out-of-range status are calculated **strictly in deterministic code**, never guessed by an LLM.
@@ -17,7 +17,7 @@ A common pitfall in AI healthcare prototypes is delegating clinical arithmetic, 
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   AegisLab System Architecture                         │
+│                   noiseLab.ai System Architecture                      │
 └────────────────────────────────────────────────────────────────────────┘
 
     [ Lab Reports (PDF / PNG / JPG) ]

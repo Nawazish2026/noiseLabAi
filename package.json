@@ -1,7 +1,7 @@
 {
-  "name": "lab-report-intelligence-agent",
+  "name": "noiselab-ai",
   "version": "1.0.0",
-  "description": "Multimodal Health-Report Intelligence Agent powered by LLM, Express.js, and MongoDB",
+  "description": "noiseLab.ai - Multimodal Health-Report Intelligence Agent powered by LLM, Express.js, and MongoDB",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

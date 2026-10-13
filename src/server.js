@@ -39,7 +39,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Lab Report Intelligence Agent',
+    service: 'noiseLab.ai Health Intelligence Agent',
     llmProvider: config.llmProvider
   });
 });
@@ -55,7 +55,7 @@ export async function startServer(port = config.port) {
   return new Promise((resolve) => {
     server = app.listen(port, () => {
       console.log(`=======================================================`);
-      console.log(`🚀 Lab Report Intelligence Agent Server Running!`);
+      console.log(`🚀 noiseLab.ai Health Intelligence Agent Server Running!`);
       console.log(`📍 Web Dashboard: http://localhost:${port}`);
       console.log(`📡 API Base:      http://localhost:${port}/api`);
       console.log(`🤖 LLM Provider:  ${config.llmProvider}`);

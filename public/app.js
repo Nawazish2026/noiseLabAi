@@ -377,8 +377,8 @@ function appendLoadingMessage() {
   div.className = 'message agent-message';
   div.innerHTML = `
     <div class="message-header">
-      <span class="agent-avatar">AI</span>
-      <strong>AegisLab Agent</strong>
+      <span class="agent-avatar">nL</span>
+      <strong>noiseLab.ai Agent</strong>
       <span class="message-time">Evaluating tools...</span>
     </div>
     <div class="message-body"><p style="color:var(--text-secondary); font-style:italic;">Querying deterministic lab verification tools...</p></div>
@@ -423,8 +423,8 @@ function appendAgentResponse(data) {
 
   div.innerHTML = `
     <div class="message-header">
-      <span class="agent-avatar">AI</span>
-      <strong>AegisLab Agent</strong>
+      <span class="agent-avatar">nL</span>
+      <strong>noiseLab.ai Agent</strong>
       <span class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
     </div>
     <div class="message-body">
@@ -446,7 +446,7 @@ function appendErrorMessage(errText) {
   const div = document.createElement('div');
   div.className = 'message agent-message';
   div.innerHTML = `
-    <div class="message-header"><span class="agent-avatar">AI</span><strong>AegisLab Agent</strong></div>
+    <div class="message-header"><span class="agent-avatar">nL</span><strong>noiseLab.ai Agent</strong></div>
     <div class="message-body" style="color:var(--accent-rose);"><p>Error: ${escapeHtml(errText)}</p></div>
   `;
   chatMessages.appendChild(div);

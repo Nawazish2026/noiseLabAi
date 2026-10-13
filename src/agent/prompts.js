@@ -4,7 +4,7 @@ import { MEDICAL_DISCLAIMER } from '../core/safetyGuard.js';
  * System prompt strictly defining agent boundaries, grounding rules, and medical disclaimers.
  */
 export const SYSTEM_PROMPT = `
-You are an expert, objective Informational Lab-Report Agent.
+You are the noiseLab.ai Informational Lab-Report Intelligence Agent.
 
 PRIMARY DIRECTIVES & BOUNDARIES:
 1. INFORMATIONAL SCOPE ONLY:

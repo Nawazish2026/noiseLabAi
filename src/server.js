@@ -25,6 +25,22 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static frontend dashboard files
 app.use(express.static(PUBLIC_DIR));
+app.use(express.static(path.resolve(__dirname, '../')));
+
+// Health check endpoint (always returns 200 OK without blocking on DB)
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    service: 'noiseLab.ai Health Intelligence Agent',
+    llmProvider: config.llmProvider
+  });
+});
+
+// Serve frontend at root as fallback
+app.get('/', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
 
 // Ensure MongoDB is connected for serverless environments (e.g. Vercel)
 app.use(async (req, res, next) => {
@@ -32,8 +48,8 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (err) {
-    console.error('[DB Middleware Error]:', err.message);
-    next(err);
+    console.warn('[DB Middleware Warning]:', err.message);
+    next();
   }
 });
 
@@ -44,16 +60,6 @@ app.use('/api/tests', correctionRouter);
 app.use('/api/query', queryRouter);
 app.use('/api/audit-logs', auditRouter);
 app.use('/api', sampleRouter);
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    service: 'noiseLab.ai Health Intelligence Agent',
-    llmProvider: config.llmProvider
-  });
-});
 
 // Centralized Error Handler
 app.use(errorHandler);

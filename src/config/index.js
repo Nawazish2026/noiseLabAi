@@ -34,10 +34,10 @@ export const config = {
   
   // LLM Config
   geminiApiKey: process.env.GEMINI_API_KEY || null,
-  geminiModel: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
+  geminiModel: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
   openaiApiKey: process.env.OPENAI_API_KEY || null,
   openaiModel: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-  llmProvider: process.env.LLM_PROVIDER || 'auto', // 'auto', 'gemini', 'openai', 'mock'
+  llmProvider: process.env.LLM_PROVIDER || 'gemini', // 'auto', 'gemini', 'openai', 'mock'
 
   // Application Paths
   paths: {

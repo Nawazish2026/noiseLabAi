@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment Secrets
+.env
+
+# Uploaded Files (runtime)
+uploads/
+
+# Python venv leftovers
+.venv/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDE metadata
+.vscode/
+.idea/
+
+# Tesseract data (auto-downloaded at runtime)
+eng.traineddata

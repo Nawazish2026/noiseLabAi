@@ -1,11 +1,6 @@
 {
   "version": 2,
   "installCommand": "npm install",
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 30
-    }
-  },
   "builds": [
     {
       "src": "public/**",
@@ -31,4 +26,5 @@
     }
   ]
 }
+
 

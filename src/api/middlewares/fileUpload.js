@@ -1,15 +1,27 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import { config } from '../../config/index.js';
 
-if (!fs.existsSync(config.paths.uploads)) {
-  fs.mkdirSync(config.paths.uploads, { recursive: true });
+let targetUploadDir = config.paths.uploads;
+try {
+  if (!fs.existsSync(targetUploadDir)) {
+    fs.mkdirSync(targetUploadDir, { recursive: true });
+  }
+} catch (err) {
+  // Read-only filesystem fallback for Vercel / AWS Lambda
+  targetUploadDir = path.join(os.tmpdir(), 'uploads');
+  try {
+    if (!fs.existsSync(targetUploadDir)) {
+      fs.mkdirSync(targetUploadDir, { recursive: true });
+    }
+  } catch (_) {}
 }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, config.paths.uploads);
+    cb(null, targetUploadDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;

@@ -2,7 +2,10 @@ import fs from 'fs/promises';
 import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
-const { PDFParse } = require('pdf-parse');
+
+// NOTE: pdf-parse is lazy-loaded inside extractTextFromPdf() to avoid
+// crashing Vercel serverless cold-starts (pdf-parse v2 references DOMMatrix,
+// a browser-only global that does not exist in Node.js).
 
 /**
  * Extracts raw textual content from a PDF document buffer or file path.
@@ -12,6 +15,9 @@ const { PDFParse } = require('pdf-parse');
  */
 export async function extractTextFromPdf(input) {
   try {
+    // Lazy-load pdf-parse at call time, not import time
+    const { PDFParse } = require('pdf-parse');
+
     let dataBuffer;
     if (typeof input === 'string') {
       dataBuffer = await fs.readFile(input);

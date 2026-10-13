@@ -1,4 +1,5 @@
-import { createWorker } from 'tesseract.js';
+// NOTE: tesseract.js is lazy-loaded inside extractTextFromImage() to avoid
+// crashing or timing out Vercel serverless cold-starts (large WASM binaries).
 
 /**
  * Perform optical character recognition on an image buffer or file path.
@@ -9,6 +10,8 @@ import { createWorker } from 'tesseract.js';
 export async function extractTextFromImage(input) {
   let worker = null;
   try {
+    // Lazy-load tesseract.js at call time, not import time
+    const { createWorker } = await import('tesseract.js');
     worker = await createWorker('eng');
     const ret = await worker.recognize(input);
     const text = ret.data.text || '';

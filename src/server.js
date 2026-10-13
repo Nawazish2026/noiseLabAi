@@ -27,8 +27,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(PUBLIC_DIR));
 app.use(express.static(path.resolve(__dirname, '../')));
 
-// Health check endpoint (always returns 200 OK without blocking on DB)
-app.get('/api/health', (req, res) => {
+// Health check endpoint (matches both /api/health and /health)
+app.get(['/api/health', '/health'], (req, res) => {
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
@@ -53,13 +53,13 @@ app.use(async (req, res, next) => {
   }
 });
 
-// API Routes
-app.use('/api/upload', uploadRouter);
-app.use('/api', reportRouter);
-app.use('/api/tests', correctionRouter);
-app.use('/api/query', queryRouter);
-app.use('/api/audit-logs', auditRouter);
-app.use('/api', sampleRouter);
+// API Routes (supports both /api/* and /*)
+app.use(['/api/upload', '/upload'], uploadRouter);
+app.use(['/api', '/'], reportRouter);
+app.use(['/api/tests', '/tests'], correctionRouter);
+app.use(['/api/query', '/query'], queryRouter);
+app.use(['/api/audit-logs', '/audit-logs'], auditRouter);
+app.use(['/api', '/'], sampleRouter);
 
 // Centralized Error Handler
 app.use(errorHandler);

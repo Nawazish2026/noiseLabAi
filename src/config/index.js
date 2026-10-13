@@ -11,7 +11,7 @@ const ROOT_DIR = path.resolve(__dirname, '../../');
 export const config = {
   port: parseInt(process.env.PORT || '3000', 10),
   nodeEnv: process.env.NODE_ENV || 'development',
-  mongoUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/lab_report_db',
+  mongoUri: process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/lab_report_db',
   
   // LLM Config
   geminiApiKey: process.env.GEMINI_API_KEY || null,
